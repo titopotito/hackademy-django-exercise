@@ -1,0 +1,51 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+body {
+    background-color: rgb(55, 55, 55);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    margin: 0.8rem 0;
+}
+
+.form-control label {
+    color: white;
+}
+
+.form-control input[type="text"] {
+    padding: 0.5rem;
+}
+
+.form-control textarea {
+    padding: 0.5rem;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.buttons > * {
+    align-self: flex-end;
+    padding: 0.5rem 0.8rem;
+    color: black;
+    border: none;
+    background-color: white;
+    font-size: 0.8rem;
+    text-decoration: none;
+}

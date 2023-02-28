@@ -1,0 +1,38 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+body {
+    background-color: rgb(55, 55, 55);
+    display: flex;
+    justify-content: center;
+}
+
+body * {
+    color: white;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+img {
+    width: 300px;
+}
+
+li {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+}
+
+a {
+    margin: 0.5rem 0;
+}

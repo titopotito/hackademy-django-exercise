@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}" />
+        <title>Edit Profile</title>
+    </head>
+    <body>
+        <h1>EDIT PROFILE</h1>
+        <form action="{% url 'edit_profile' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-control">
+                <label for="{{ user_form.first_name.label }}">First Name</label>
+                {{ user_form.first_name }}
+            </div>
+            <div class="form-control">
+                <label for="{{ user_form.last_name.label }}">Last Name</label>
+                {{ user_form.last_name }}
+            </div>
+            <div class="form-control">
+                <label for="{{ profile_form.description.label }}">Description</label>
+                {{ profile_form.description }}
+            </div>
+            <div class="form-control">
+                <label for="{{ profile_form.profile_picture.label }}">Profile Picture</label>
+                {{ profile_form.profile_picture }}
+            </div>
+            <div class="buttons">
+                <a href="{% url 'profile' %}">Cancel</a>
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </body>
+</html>
