@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Profile
-from .forms import EditUserForm, EditProfileForm
+from django.contrib.auth.models import User
+from .forms import EditUserForm, EditProfileForm, RegisterForm
 import os
 
 
 def home_view(request):
     if request.user.is_authenticated:
-        return render(request, 'home.html')
+        return render(request, 'profile.html')
     else:
         return redirect('login')
 
@@ -45,6 +46,27 @@ def edit_profile_view(request):
                 profile_form.save()
                 return redirect('profile')
         return redirect('edit_profile')
+
+
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+
+    if request.method == 'GET':
+        register_form = RegisterForm()
+        context = {
+            'register_form': register_form
+        }
+        return render(request, 'register.html', context)
+
+    if request.method == 'POST':
+        register_form = RegisterForm(request.POST)
+        if register_form.is_valid():
+            new_user = register_form.save()
+            user = User.objects.get(pk=new_user.id)
+            new_profile = Profile(user=user)
+            new_profile.save()
+            return redirect('login')
 
 
 def login_view(request):
