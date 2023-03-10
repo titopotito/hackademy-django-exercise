@@ -11,7 +11,7 @@ import os
 def home_view(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return render(request, 'profile.html')
+            return redirect('profile')
         else:
             return redirect('login')
 
