@@ -1,24 +1,27 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 from .forms import EditUserForm, EditProfileForm, RegisterForm
 import os
 
 
 def home_view(request):
-    if request.user.is_authenticated:
-        return render(request, 'profile.html')
-    else:
-        return redirect('login')
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return render(request, 'profile.html')
+        else:
+            return redirect('login')
 
 
 @login_required(login_url='login')
 def profile_view(request):
-    profile = Profile.objects.get(user=request.user)
-    context = {'profile': profile}
-    return render(request, 'profile.html', context)
+    if request.method == 'GET':
+        profile = Profile.objects.get(user=request.user)
+        context = {'profile': profile}
+        return render(request, 'profile.html', context)
 
 
 @login_required(login_url='login')
@@ -67,23 +70,30 @@ def register_view(request):
             new_profile = Profile(user=user)
             new_profile.save()
             return redirect('login')
+        else:
+            return redirect('register')
 
 
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('profile')
 
+    if request.method == 'GET':
+        login_form = AuthenticationForm()
+        context = {'login_form': login_form}
+        return render(request, 'login.html', context)
+
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
+        login_form = AuthenticationForm(None, request.POST)
+        if login_form.is_valid():
+            user = login_form.get_user()
             login(request, user)
+            return redirect('profile')
+        else:
+            return redirect('login')
 
-    return render(request, 'login.html')
 
-
-def logout_user(request):
+def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
         return redirect('login')
